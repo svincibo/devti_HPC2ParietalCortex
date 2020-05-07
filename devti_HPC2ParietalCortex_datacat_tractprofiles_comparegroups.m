@@ -1,5 +1,5 @@
-% Read in tractprofiles and plot mean and standard deviations for age
-% groups.
+% Read in tractprofiles and plot tractprofiles for each age group 
+% and then plot mean and standard deviations for age group.
 
 clear all; close all; clc
 format shortG
