@@ -45,7 +45,7 @@ bdata = array2table(data, 'VariableNames', {'subID', 'cov_age', 'iq', 'gp_age', 
 outlier = []; %[128 315 318]; %NOTE: need to update to not plot the outliers
 
 fcount = 0;
-for w = 2%:length(wm)
+for w = 1:length(wm)
     
     wm_measure = wm{w};
     
@@ -326,7 +326,7 @@ for w = 2%:length(wm)
     if ~strcmp(list_tract{1}, 'empty')
         
         % Open a new figure and hold.
-        figure(w+1)
+        figure(w+2)
         hold on;
         
         % Set up legend.

@@ -44,7 +44,7 @@ bdata = array2table(data, 'VariableNames', {'subID', 'cov_age', 'iq', 'gp_age', 
 outlier = []; %[128 315 318]; %NOTE: need to update to not plot the outliers
 
 fcount = 0;
-for w = 2%1:length(wm)
+for w = 1:length(wm)
     
     wm_measure = wm{w};
     
@@ -126,11 +126,7 @@ for w = 2%1:length(wm)
             age_LH(sub_count) = bdata.cov_age(bdata.subID == sub_LH(sub_count));
             
             clear data_temp sub_contents_tractprofiles
-            
-        end % if
-        
-        %     end % end sub_contents
-        
+                            
         %% RIGHT HEMISPHERE
         
         % Get contents of the directory where the tract measures for this subject are stored.
@@ -138,8 +134,7 @@ for w = 2%1:length(wm)
         
         % Remove the '.' and '..' files.
         sub_contents_tractprofiles = sub_contents_tractprofiles(arrayfun(@(x) x.name(1), sub_contents_tractprofiles) ~= '.');
-        
-           
+                   
             % Preallocate based on number of subjects(size(grp_contents)) and number of tracts (size(sub_contents...)).
             if i == 1 
                 
@@ -187,7 +182,9 @@ for w = 2%1:length(wm)
             age_RH(sub_count) = bdata.cov_age(bdata.subID == sub_RH(sub_count));
             
             clear data_temp sub_contents_tractprofiles
-                    
+            
+        end % if sub_contents empty
+                                
     end % group_contents
     
     if strcmp(wm{w}, 'fa')
@@ -301,6 +298,8 @@ for w = 2%1:length(wm)
     
     hold off;
     
+    clear y
+    
     %% PLOT RIGHT HEMISPHERE
     
     % Find empty cells and fill with 'empty'.
@@ -324,7 +323,7 @@ for w = 2%1:length(wm)
     if ~strcmp(list_tract{1}, 'empty')
         
         % Open a new figure and hold.
-        figure(w+1)
+        figure(w+2)
         hold on;
         
         count = 0;
@@ -401,6 +400,8 @@ for w = 2%1:length(wm)
     print(fullfile(rootDir, 'plots', 'eps', ['plot_tractprofiles_' wm_measure '_' list_tract{1} '_RH']), '-depsc')
     
     hold off;
+    
+    clear y
     
 end % w
 
