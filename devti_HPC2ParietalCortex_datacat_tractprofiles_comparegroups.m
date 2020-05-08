@@ -1,4 +1,4 @@
-% Read in tractprofiles and plot tractprofiles for each age group 
+% Read in tractprofiles and plot tractprofiles for each age group
 % and then plot mean and standard deviations for age group.
 
 clear all; close all; clc
@@ -42,10 +42,10 @@ bdata = array2table(data, 'VariableNames', {'subID', 'cov_age', 'iq', 'gp_age', 
 % end
 
 % Identify outliers to be removed.
-outlier = [90]; %[128 315 318]; %NOTE: need to update to not plot the outliers
+outlier = []; %[128 315 318]; %NOTE: need to update to not plot the outliers
 
 fcount = 0;
-for w = 1:length(wm)
+for w = 2%:length(wm)
     
     wm_measure = wm{w};
     
@@ -436,35 +436,33 @@ for w = 1:length(wm)
     
     hold off;
     
-end % w
-
-% Get group means and confidence intervals.
-% Use 2*standard error as a close approximate of 95% confidence interval.
-m_child_LH = nanmean(m_LH(gp_LH == 1, 2)); se2_child_LH = 2*(nanstd(m_LH(gp_LH == 1, 2))/sqrt(length(m_LH(gp_LH == 1, 2))));
-m_adolescent_LH = nanmean(m_LH(gp_LH == 2, 2)); se2_adolescent_LH = 2*(nanstd(m_LH(gp_LH == 2))/sqrt(length(m_LH(gp_LH == 2, 2))));
-m_adult_LH = nanmean(m_LH(gp_LH == 3, 2)); se2_adult_LH = 2*(nanstd(m_LH(gp_LH == 3, 2))/sqrt(length(m_LH(gp_LH == 3, 2))));
-
-m_child_RH = nanmean(m_RH(gp_RH == 1, 2)); se2_child_RH = 2*(nanstd(m_RH(gp_RH == 1, 2))/sqrt(length(m_RH(gp_RH == 1, 2))));
-m_adolescent_RH = nanmean(m_RH(gp_RH == 2, 2)); se2_adolescent_RH = 2*(nanstd(m_RH(gp_RH == 2))/sqrt(length(m_RH(gp_RH == 2, 2))));
-m_adult_RH = nanmean(m_RH(gp_RH == 3, 2)); se2_adult_RH = 2*(nanstd(m_RH(gp_RH == 3, 2))/sqrt(length(m_RH(gp_RH == 3, 2))));
-
-capsize = 0;
-marker = 'o';
-cmap_child = [0.6350 0.0780 0.1840]; %red, child
-cmap_adolescent = [0 0.4470 0.7410]; %blue, adolescent
-cmap_adult = [0.41176 0.41176 0.41176]; %gray, adult
-linewidth = 1.5;
-linestyle = 'none';
-markersize = 10;
-fontname = 'Arial';
-fontsize = 16;
-fontangle = 'italic';
-yticklength = 0.05;
-xticklength = 0;
-xtickvalues = [1 2 3 4 5 6];
-xlim_lo = 0.5; xlim_hi = 6.5;
-save_figures = 'yes';
-
+    % Get group means and confidence intervals.
+    % Use 2*standard error as a close approximate of 95% confidence interval.
+    m_child_LH = nanmean(m_LH(gp_LH == 1, 2)); se2_child_LH = 2*(nanstd(m_LH(gp_LH == 1, 2))/sqrt(length(m_LH(gp_LH == 1, 2))));
+    m_adolescent_LH = nanmean(m_LH(gp_LH == 2, 2)); se2_adolescent_LH = 2*(nanstd(m_LH(gp_LH == 2))/sqrt(length(m_LH(gp_LH == 2, 2))));
+    m_adult_LH = nanmean(m_LH(gp_LH == 3, 2)); se2_adult_LH = 2*(nanstd(m_LH(gp_LH == 3, 2))/sqrt(length(m_LH(gp_LH == 3, 2))));
+    
+    m_child_RH = nanmean(m_RH(gp_RH == 1, 2)); se2_child_RH = 2*(nanstd(m_RH(gp_RH == 1, 2))/sqrt(length(m_RH(gp_RH == 1, 2))));
+    m_adolescent_RH = nanmean(m_RH(gp_RH == 2, 2)); se2_adolescent_RH = 2*(nanstd(m_RH(gp_RH == 2))/sqrt(length(m_RH(gp_RH == 2, 2))));
+    m_adult_RH = nanmean(m_RH(gp_RH == 3, 2)); se2_adult_RH = 2*(nanstd(m_RH(gp_RH == 3, 2))/sqrt(length(m_RH(gp_RH == 3, 2))));
+    
+    capsize = 0;
+    marker = 'o';
+    cmap_child = [0.6350 0.0780 0.1840]; %red, child
+    cmap_adolescent = [0 0.4470 0.7410]; %blue, adolescent
+    cmap_adult = [0.41176 0.41176 0.41176]; %gray, adult
+    linewidth = 1.5;
+    linestyle = 'none';
+    markersize = 10;
+    fontname = 'Arial';
+    fontsize = 16;
+    fontangle = 'italic';
+    yticklength = 0.05;
+    xticklength = 0;
+    xtickvalues = [1 2 3 4 5 6];
+    xlim_lo = 0.5; xlim_hi = 6.5;
+    save_figures = 'yes';
+    
     % Plot means. %NOTE: Change errorbar to plot so that I can do whiskers instead of T-bars.
     figure(3)
     errorbars = errorbar(xtickvalues(1), m_child_LH, se2_child_LH, se2_child_LH);
@@ -480,7 +478,7 @@ save_figures = 'yes';
     set(errorbars, 'Color', cmap_adolescent, 'Marker', marker, 'MarkerEdgeColor', cmap_adolescent, 'MarkerFaceColor', cmap_adolescent, 'MarkerSize', markersize, 'LineWidth', linewidth, 'LineStyle', linestyle, 'CapSize', capsize);
     errorbars = errorbar(xtickvalues(6), m_adult_RH, se2_adult_RH, se2_adult_RH);
     set(errorbars, 'Color', cmap_adult, 'Marker', marker, 'MarkerEdgeColor', cmap_adult, 'MarkerFaceColor', cmap_adult, 'MarkerSize', markersize, 'LineWidth', linewidth, 'LineStyle', linestyle, 'CapSize', capsize);
-
+    
     % xaxis
     xax = get(gca, 'xaxis');
     xax.Limits = [xlim_lo xlim_hi];
@@ -493,7 +491,7 @@ save_figures = 'yes';
     xax.FontName = fontname;
     xax.FontSize = fontsize;
     xax.FontAngle = fontangle;
-
+    
     % yaxis
     yax = get(gca,'yaxis');
     yax.Limits = [ylim_lo ylim_hi];
@@ -504,14 +502,14 @@ save_figures = 'yes';
     yax.FontName = fontname;
     yax.FontSize = fontsize;
     
-     plot([3.5 3.5], [ylim_lo ylim_hi], 'k:')
-     
+    plot([3.5 3.5], [ylim_lo ylim_hi], 'k:')
+    
     legend({'Children', 'Adolescents', 'Adults'})
     legend box off
     
-        % general
+    % general
     a = gca;
-%     a.TitleFontWeight = 'normal';
+    %     a.TitleFontWeight = 'normal';
     box off
     
     if strcmp(wm{w}, 'fa')
@@ -523,19 +521,20 @@ save_figures = 'yes';
     pbaspect([1 1 1])
     
     %     pos=get(gca,'Position');
-%     pos1=pos-[0 .02 0 0];
-%     set(gca,'Position', pos1);
-
+    %     pos1=pos-[0 .02 0 0];
+    %     set(gca,'Position', pos1);
+    
     % Write.
     if strcmp(save_figures, 'yes')
         
         print(fullfile(rootDir, 'plots', ['plot_tractprofile_avg_' wm{w} ]), '-dpng')
-%         print(fullfile(rootDir, 'plots', 'eps', ['plot_tractprofile_avg_' wm{w} ]), '-depsc')
+        %         print(fullfile(rootDir, 'plots', 'eps', ['plot_tractprofile_avg_' wm{w} ]), '-depsc')
         
     end
     
     hold off;
     
+end % w
 
 
 
